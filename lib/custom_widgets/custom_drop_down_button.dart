@@ -7,14 +7,14 @@ import 'package:get/get.dart';
 
 import '../models/donate_page_get.dart';
 
-List<String> amountList = ['\$', '€', '£', '¥'];
+
 
 class CustomDropDownButton extends StatelessWidget {
   CustomDropDownButton({super.key});
 
   final donatePageGet = Get.put(DonatePageGet());
 
-  String value = amountList.first;
+  String value = '\$';
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class CustomDropDownButton extends StatelessWidget {
               hint: Obx(() {
                 return Text(donatePageGet.currency.value);
               }),
-              items: amountList.map((String item) {
+              items: donatePageGet.amountList.map((String item) {
                 return DropdownMenuItem(
                   value: item,
                   child: Text(item),

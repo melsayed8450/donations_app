@@ -9,11 +9,14 @@ class CustomTextField extends StatelessWidget {
       required this.hintText,
       required this.height,
       required this.width,
-      required this.controller});
+      required this.controller,
+      this.maxLines,
+      });
   final hintText;
   final double height;
   final double width;
   final controller;
+  final maxLines;
   @override
   Widget build(BuildContext context) {
     final screen_height = MediaQuery.of(context).size.height;
@@ -26,7 +29,7 @@ class CustomTextField extends StatelessWidget {
         keyboardType: width == screen_width * 0.8
             ? TextInputType.text
             : TextInputType.number,
-        maxLines: height == 60 ? 1 : 5,
+        maxLines: maxLines,
         controller: controller.value,
         decoration: InputDecoration(
           border: OutlineInputBorder(

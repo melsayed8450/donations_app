@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
                   width: screen_width * 0.7,
                   height: screen_height * 0.1,
                   decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 73, 4, 218),
+                      color: Theme.of(context).primaryColor,
                       borderRadius: BorderRadius.circular(30)),
                   child: TextButton(
                     child: Text(
@@ -31,21 +31,7 @@ class HomePage extends StatelessWidget {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () async {
-                      final prefs = await SharedPreferences.getInstance();
-                      List<String>? ids = prefs.getStringList('ids') ?? [];
-                      List<String>? amounts =
-                          prefs.getStringList('amounts') ?? [];
-                      List<String>? names = prefs.getStringList('names') ?? [];
-                      List<String>? words = prefs.getStringList('words') ?? [];
-                      List<String>? currency =
-                          prefs.getStringList('currency') ?? [];
-                      await Get.to(() => AllDonationsPage(
-                            ids: ids,
-                            names: names,
-                            words: words,
-                            currency: currency,
-                            amounts: amounts,
-                          ));
+                      homePageGet.onAllDonationsButtonPressed();
                     },
                   ),
                 ),
@@ -55,7 +41,7 @@ class HomePage extends StatelessWidget {
         ),
       ),
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 73, 4, 218),
+        backgroundColor: Theme.of(context).primaryColor,
         title: Row(
           children: [
             Icon(Icons.circle_notifications_outlined),

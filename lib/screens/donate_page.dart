@@ -12,6 +12,7 @@ class DonatePage extends StatelessWidget {
   DonatePage({super.key, required this.creator});
   final Creator creator;
   final donatePageGet = Get.put(DonatePageGet());
+
   @override
   Widget build(BuildContext context) {
     final screen_height = MediaQuery.of(context).size.height;
@@ -68,6 +69,7 @@ class DonatePage extends StatelessWidget {
               height: screen_height * 0.2,
               width: screen_width * 0.8,
               controller: donatePageGet.saySomthing,
+              maxLines: 5,
             ),
             SizedBox(
               height: screen_height * 0.25,
@@ -78,63 +80,11 @@ class DonatePage extends StatelessWidget {
                 width: screen_width * 0.45,
                 height: screen_height * 0.06,
                 decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 73, 4, 218),
+                    color: Theme.of(context).primaryColor,
                     borderRadius: BorderRadius.circular(30)),
                 child: TextButton(
-                  onPressed: () async {
-                    if (!donatePageGet.amount.value.text.isEmpty) {
-                      final prefs = await SharedPreferences.getInstance();
-                      List<String>? ids = prefs.getStringList('ids') ?? [];
-                      List<String>? amounts =
-                          prefs.getStringList('amounts') ?? [];
-                      List<String>? names = prefs.getStringList('names') ?? [];
-                      List<String>? words = prefs.getStringList('words') ?? [];
-                      List<String>? currency =
-                          prefs.getStringList('currency') ?? [];
-                      ids.add(creator.id);
-                      amounts.add(donatePageGet.amount.value.text);
-                      names.add(!donatePageGet.name.value.text.isEmpty
-                          ? donatePageGet.name.value.text
-                          : '-');
-                      words.add(!donatePageGet.saySomthing.value.text.isEmpty
-                          ? donatePageGet.saySomthing.value.text
-                          : '-');
-                      currency.add(donatePageGet.currency.value);
-                      prefs.setStringList('ids', ids);
-                      prefs.setStringList('names', names);
-                      prefs.setStringList('amounts', amounts);
-                      prefs.setStringList('words', words);
-                      prefs.setStringList('currency', currency);
-
-                      Navigator.pop(context);
-                      showDialog<String>(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                          title: Text(creator.name),
-                          content: const Text('Thanks for your support'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text('OK'),
-                            ),
-                          ],
-                        ),
-                      );
-                    } else {
-                      showDialog<String>(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                          title: Text('Error'),
-                          content: const Text('Please enter the amount'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text('OK'),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
+                  onPressed: () {
+                    donatePageGet.onSupportbuttonPress(context, creator);
                   },
                   child: Obx(() {
                     return Text(
